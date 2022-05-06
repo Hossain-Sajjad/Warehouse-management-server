@@ -8,6 +8,36 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const { query } = require('express');
+const uri = "mongodb+srv://hossain:JacpyTOiR1x5nTze@cluster0.f6hxd.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+
+async function run() {
+    try {
+        await client.connect();
+        const itemCollection = client.db('express').collection('item');
+
+        app.get('/items', async (req, res) => {
+            const query = {};
+            const cursor = itemCollection.find(query);
+            const items = await cursor.toArray();
+            res.send(items);
+        })
+
+        app.post('/item', async (req, res) => {
+            const newItem = req.body;
+            console.log(newItem)
+            const result = await itemCollection.insertOne(newItem);
+            res.send(result);
+        });
+
+    }
+    finally { }
+}
+run().catch(console.dir)
+
 app.get('/', (req, res) => {
     res.send("Bismillah")
 })
