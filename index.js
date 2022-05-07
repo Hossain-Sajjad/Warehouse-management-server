@@ -46,7 +46,18 @@ async function run() {
             const result = await itemCollection.findOne(query);
             res.send(result);
         })
-
+        app.put('/item/:id', async (req, res) => {
+            const id = req.params.id;
+            const updatedItem = req.body;
+            const filter = { _id: ObjectId(id) };
+            const updatedDoc = {
+                $set: {
+                    quantity: updatedItem.quantity
+                }
+            }
+            const result = await itemCollection.updateOne(filter, updatedDoc);
+            res.send(result);
+        })
     }
     finally { }
 }
