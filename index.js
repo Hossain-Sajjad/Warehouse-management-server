@@ -64,6 +64,14 @@ async function run() {
             const result = await itemCollection.updateOne(filter, updatedDoc);
             res.send(result);
         })
+
+        app.post('/myitems', async (req, res) => {
+            const userEmail = req.body;
+            const query = { email: { $in: userEmail } };
+            const cursor = itemCollection.find(query);
+            const items = await cursor.toArray();
+            res.send(items)
+        })
     }
     finally { }
 }
