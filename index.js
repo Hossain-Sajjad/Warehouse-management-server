@@ -19,10 +19,16 @@ async function run() {
         await client.connect();
         const itemCollection = client.db('express').collection('item');
 
-        app.get('/items', async (req, res) => {
+        app.get('/allitems', async (req, res) => {
             const query = {};
             const cursor = itemCollection.find(query);
             const items = await cursor.toArray();
+            res.send(items);
+        })
+        app.get('/items', async (req, res) => {
+            const query = {};
+            const cursor = itemCollection.find(query);
+            const items = await cursor.limit(4).toArray();
             res.send(items);
         })
 
