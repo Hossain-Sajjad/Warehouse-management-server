@@ -84,5 +84,8 @@ run().catch(console.dir);
 app.get("/", (req, res) => {
   res.send("Bismillah");
 });
+app.get("/testing", (req, res) => {
+  res.send("runing ok");
+});
 
 app.listen(port, () => console.log("Hoise"));
