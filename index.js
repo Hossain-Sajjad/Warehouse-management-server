@@ -88,4 +88,4 @@ app.get("/testing", (req, res) => {
   res.send("runing ok");
 });
 
-app.listen(port, () => console.log("Hoise"));
+app.listen(port, () => console.log("Hoise" + " " + port));
